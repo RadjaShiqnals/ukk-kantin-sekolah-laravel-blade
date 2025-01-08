@@ -17,12 +17,12 @@ To clone and run this project, follow these steps:
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/RadjaShiqnals/ukk-kantin-sekolah-laravel-react.git
+    https://github.com/RadjaShiqnals/ukk-kantin-sekolah-laravel-blade.git
     ```
 
 2. Navigate to the project directory:
     ```sh
-    cd ukk-kantin-sekolah-laravel-react
+    cd ukk-kantin-sekolah-laravel-blade
     ```
 
 3. Install the dependencies:
@@ -34,6 +34,11 @@ To clone and run this project, follow these steps:
 4. Copy the [.env.example](http://_vscodecontentref_/0) file to [.env](http://_vscodecontentref_/1):
     ```sh
     cp .env.example .env
+    ```
+
+4. Generate jwt key:
+    ```sh
+    php artisan jwt:secret
     ```
 
 5. Generate the application key:
