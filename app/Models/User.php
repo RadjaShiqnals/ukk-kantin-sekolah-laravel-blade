@@ -17,10 +17,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    public $timestamps = true;
     protected $fillable = [
         'name',
         'email',
         'password',
+        'email_verified_at',
+        'remember_token',
+        'role'
     ];
 
     /**
@@ -44,5 +48,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function stan()
+    {
+        return $this->hasOne(Stan::class, 'id_user');
+    }
+
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class, 'id_user');
     }
 }
