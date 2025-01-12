@@ -20,23 +20,12 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Check if user exists first
-        $user = User::where('email', $credentials['email'])->first();
-        
-        if (!$user) {
-            return back()
-                ->withInput($request->except('password'))
-                ->withErrors([
-                    'email' => 'No account found with this email address.'
-                ]);
-        }
-
-        // Attempt authentication
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
             // Redirect based on role
-            switch($user->role) {
+            $user = Auth::user();
+            switch ($user->role) {
                 case 'admin':
                     return redirect()->route('admin.dashboard');
                 case 'admin_stan':
@@ -44,19 +33,13 @@ class AuthController extends Controller
                 case 'siswa':
                     return redirect()->route('siswa.dashboard');
                 default:
-                    return redirect()->route('login')
-                        ->withErrors([
-                            'email' => 'Your account has an invalid role. Please contact administrator.'
-                        ]);
+                    return redirect()->route('dashboard');
             }
         }
 
-        // If we get here, password was wrong
-        return back()
-            ->withInput($request->except('password'))
-            ->withErrors([
-                'password' => 'The password you entered is incorrect.'
-            ]);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     public function logout(Request $request)
@@ -70,12 +53,15 @@ class AuthController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        if ($user->role === 'admin_stan') {
-            return redirect()->route('stan.dashboard');
-        } elseif ($user->role === 'siswa') {
-            return redirect()->route('siswa.dashboard');
-        } elseif ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
+        switch ($user->role) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'admin_stan':
+                return redirect()->route('stan.dashboard');
+            case 'siswa':
+                return redirect()->route('siswa.dashboard');
+            default:
+                return view('dashboard');
         }
     }
 }

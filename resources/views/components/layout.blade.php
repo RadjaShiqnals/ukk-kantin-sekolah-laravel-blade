@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Dashboard' }}</title>
-    @vite('resources/css/app.css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title ?? 'App' }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-blue-50 text-gray-900 flex flex-col min-h-screen">
@@ -31,8 +32,10 @@
     </main>
 
     <footer class="bg-blue-600 text-white text-center p-4">
-        &copy; {{ date('Y') }} Your Company. All rights reserved.
+        &copy; {{ date('Y') }} RadjaShiqnals Canteen. All rights reserved.
     </footer>
+
+    @stack('scripts')
 </body>
 
 </html>
